@@ -25,7 +25,6 @@ class App extends Component {
 
   removeContact = function(contact) { // if we write mevoveContact as arrow function
                                       // we dont' have to pass 'this' to ListContacts Component
-    console.log('removeContact' ,this);
     this.setState((prevState) => (
       {contacts: prevState.contacts.filter(c => c.id !== contact.id)
       }
@@ -33,7 +32,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('Render', this);
     return (
       <div>
         <ListContacts parent={this} contacts={this.state.contacts} OnRemoveContact={this.removeContact}/>
