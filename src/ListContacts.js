@@ -5,7 +5,7 @@ function ListContacts(props) {
         <ol className='contact-list'>
             {props.contacts.map(contact =>
                 <li className='contact-list-item' key={contact.id}>
-                    <img className='contact-avatar' src={contact.avatarURL}/>
+                    <img className='contact-avatar' alt={"Avatar Image of " + contact.name} src={contact.avatarURL}/>
                 {/* Teachers solution:
                     <div className='contact-avatar' style={{backgroundImage: `url(${contact.avatarURL})`}}/>
                 */}
@@ -13,7 +13,13 @@ function ListContacts(props) {
                         <p>{contact.name}</p>
                         <p>{contact.email}</p>
                     </div>
-                    <button className='contact-remove'/>
+                    <button onClick={function() {props.OnRemoveContact.call(props.parent, contact)}} className='contact-remove'/>
+{/* if App.removeContact is written as arrow function we don't have to use call() :
+                    <button onClick={function() {props.OnRemoveContact(contact)}} className='contact-remove'/>
+
+                    // or even better:
+                    <button onClick={() => props.OnRemoveContact(contact)} className='contact-remove'/>
+*/}
                 </li>
             )}
         </ol>
