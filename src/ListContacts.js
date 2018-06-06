@@ -20,6 +20,10 @@ class ListContacts extends Component {
         this.setState({ query: newQuery.trim() })
     }
 
+    showAll = () => {
+        this.setState({ query: '' })
+    }
+
     render() {
         let showingContacts // if i use 'const' insetad of 'let' i must set its value here..!!
 
@@ -41,6 +45,19 @@ class ListContacts extends Component {
                         onChange={(event) =>this.searchQuery(event.target.value)}
                     />
                 </div>
+                { showingContacts.length < this.props.contacts.length &&
+                    <div className='showing-contacts'>
+                        {/* My solution:
+                          * Now showing {showingContacts.length} of {this.props.contacts.length} total
+                          **** We don't need arrow function because showAll is defined in ListContacts and not in App
+                          * <button onClick={() => this.showAll()}>Show all</button>
+                          */}
+                        <span>
+                            Now showing {showingContacts.length} of {this.props.contacts.length} total
+                        </span>
+                        <button onClick={this.showAll}>Show all</button>
+                    </div>
+                }
                 <ol className='contact-list'>
                     {showingContacts.map(contact => {
                         return (
