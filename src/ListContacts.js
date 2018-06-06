@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import escapeStringRegexp from 'escape-string-regexp';
+import sortBy from 'sort-by';
 
 
 class ListContacts extends Component {
@@ -26,9 +28,10 @@ class ListContacts extends Component {
                         onChange={this.searchQuery}
                     />
                 </form>
-                {JSON.stringify(this.state)}
                 <ol className='contact-list'>
-                    {this.props.contacts.map(contact =>
+                    {this.props.contacts.sort(sortBy('name')).map(contact => {
+                        if (contact.name.match(new RegExp(escapeStringRegexp(this.state.query), 'i'))) { return (
+
                         <li className='contact-list-item' key={contact.id}>
                             <img className='contact-avatar' alt={"Avatar Image of " + contact.name} src={contact.avatarURL}/>
                         {/* Teachers solution:
@@ -46,7 +49,9 @@ class ListContacts extends Component {
                             // or even better:
                             <button onClick={() => props.OnRemoveContact(contact)} className='contact-remove'/>
         */}
-                        </li>
+                        </li> )
+                    } else {return ''}
+                    }
                     )}
                 </ol>
             </div>
