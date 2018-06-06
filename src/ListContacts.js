@@ -25,13 +25,16 @@ class ListContacts extends Component {
     }
 
     render() {
+        const {query} = this.state
+        const {contacts, OnRemoveContact} = this.props
+
         let showingContacts // if i use 'const' insetad of 'let' i must set its value here..!!
 
-        if (this.state.query !== '') {
-            const contactQuery = new RegExp(escapeStringRegexp(this.state.query), 'i')
-            showingContacts = this.props.contacts.filter((contact) => contactQuery.test(contact.name))
+        if (query !== '') {
+            const contactQuery = new RegExp(escapeStringRegexp(query), 'i')
+            showingContacts = contacts.filter((contact) => contactQuery.test(contact.name))
         } else {
-            showingContacts = this.props.contacts
+            showingContacts = contacts
         }
 
         showingContacts.sort(sortBy('name'))
@@ -41,19 +44,19 @@ class ListContacts extends Component {
                 <div className='list-contacts-top'>
                     <input className='search-contacts' type='text'
                         placeholder='Search contacts'
-                        value={this.state.query}
+                        value={query}
                         onChange={(event) =>this.searchQuery(event.target.value)}
                     />
                 </div>
-                { showingContacts.length < this.props.contacts.length &&
+                { showingContacts.length < contacts.length &&
                     <div className='showing-contacts'>
                         {/* My solution:
-                          * Now showing {showingContacts.length} of {this.props.contacts.length} total
+                          * Now showing {showingContacts.length} of {contacts.length} total
                           **** We don't need arrow function because showAll is defined in ListContacts and not in App
                           * <button onClick={() => this.showAll()}>Show all</button>
                           */}
                         <span>
-                            Now showing {showingContacts.length} of {this.props.contacts.length} total
+                            Now showing {showingContacts.length} of {contacts.length} total
                         </span>
                         <button onClick={this.showAll}>Show all</button>
                     </div>
@@ -74,12 +77,12 @@ class ListContacts extends Component {
                                 </div>
 
                                 {/* if we don't use arrow functin, 'this' will refer to button element: */}
-                                <button onClick={() => {this.props.OnRemoveContact.call(this.props.parent, contact)}} className='contact-remove'/>
+                                <button onClick={() => {OnRemoveContact.call(this.props.parent, contact)}} className='contact-remove'/>
                                     {/* if App.removeContact is written as arrow function we don't have to use call() :
-                                      *  <button onClick={function() {props.OnRemoveContact(contact)}} className='contact-remove'/>
+                                      *  <button onClick={function() {OnRemoveContact(contact)}} className='contact-remove'/>
                                       *
                                       * or even better:
-                                      * <button onClick={() => props.OnRemoveContact(contact)} className='contact-remove'/>
+                                      * <button onClick={() => OnRemoveContact(contact)} className='contact-remove'/>
                                       */}
                             </li>
                         )
