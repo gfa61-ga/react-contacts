@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ListContacts from './ListContacts'; //import ListContacts from './ListContacts.js';
+import CreateContact from './CreateContact';
 
 import * as ContactsAPI from './utils/ContactsAPI';
 
@@ -7,7 +8,14 @@ import * as ContactsAPI from './utils/ContactsAPI';
 // import ContactsAPI from './utils/ContactsAPI';
 
 class App extends Component {
-  state = {contacts: []}
+  state = {
+    contacts: [],
+    screen: 'list' // 'list' or 'create'
+  }
+
+  goToCreate = (screen) => {
+    this.setState({screen})
+  }
 
   componentDidMount() {
     // My solution:
@@ -31,7 +39,22 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ListContacts parent={this} contacts={this.state.contacts} OnRemoveContact={this.removeContact}/>
+        {this.state.screen === 'list' &&
+          <ListContacts
+            /*  Teacher's solution.. He added the function here..!!!
+            OngoToCreate={(screen) =>
+              this.setState({screen})
+            }
+            */
+            OngoToCreate={this.goToCreate}
+
+            parent={this}
+            contacts={this.state.contacts}
+            OnRemoveContact={this.removeContact}/>
+        }
+        {this.state.screen === 'create' &&
+          <CreateContact/>
+        }
       </div>
     )
   }
