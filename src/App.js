@@ -33,6 +33,16 @@ class App extends Component {
     ContactsAPI.remove(contact);
   }
 
+
+  addContact = (contact) => {
+    contact.id = contact.name.split(" ").join("-").toLowerCase();
+    this.setState((prevState) => {
+        prevState.contacts.push(contact);
+        return {contacts: prevState.contacts}
+    })
+  }
+
+
   render() {
     return (
       <div>
@@ -46,11 +56,14 @@ class App extends Component {
 
             parent={this}
             contacts={this.state.contacts}
-            OnRemoveContact={this.removeContact}/>
+            OnRemoveContact={this.removeContact}
+          />
           )}/>
-        <Route path='/create' component={
-          CreateContact
-        }/>
+        <Route path='/create' render={() => (
+          <CreateContact
+            OnAddContact={this.addContact}
+          />
+        )}/>
       </div>
     )
   }
