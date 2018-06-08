@@ -48,8 +48,7 @@ class ListContacts extends Component {
                         value={query}
                         onChange={(event) =>this.searchQuery(event.target.value)}
                     />
-                    <Link className='add-contact' to='/create'
-                        onClick={() => this.props.OngoToCreate('create')}>
+                    <Link className='add-contact' to='/create'>
                         Add contact
                     </Link>
 

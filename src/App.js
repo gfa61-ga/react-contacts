@@ -4,17 +4,14 @@ import CreateContact from './CreateContact';
 
 import * as ContactsAPI from './utils/ContactsAPI';
 
+import { Route } from 'react-router-dom';
+
 // My error code for import:
 // import ContactsAPI from './utils/ContactsAPI';
 
 class App extends Component {
   state = {
-    contacts: [],
-    screen: 'list' // 'list' or 'create'
-  }
-
-  goToCreate = (screen) => {
-    this.setState({screen})
+    contacts: []
   }
 
   componentDidMount() {
@@ -39,22 +36,21 @@ class App extends Component {
   render() {
     return (
       <div>
-        {this.state.screen === 'list' &&
+        <Route exact path='/' render={() => (
           <ListContacts
             /*  Teacher's solution.. He added the function here..!!!
             OngoToCreate={(screen) =>
               this.setState({screen})
             }
             */
-            OngoToCreate={this.goToCreate}
 
             parent={this}
             contacts={this.state.contacts}
             OnRemoveContact={this.removeContact}/>
-        }
-        {this.state.screen === 'create' &&
-          <CreateContact/>
-        }
+          )}/>
+        <Route path='/create' component={
+          CreateContact
+        }/>
       </div>
     )
   }
